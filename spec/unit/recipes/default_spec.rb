@@ -71,12 +71,12 @@ describe 'stow::default' do
 
   context "When installing from source" do
     let(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'oracle', version: '6.4')
+      runner = ChefSpec::ServerRunner.new(platform: 'opensuse', version: '12.3')
       runner.converge(described_recipe)
     end
 
     it 'gets the latest stow' do
-      expect(chef_run).to create_remote_file("#{Chef::Config[:file_cache_path]}/stow-2.2.0.tar.gz")
+      expect(chef_run).to create_remote_file("/opt/local/stow/src/stow-2.2.0.tar.gz")
     end
 
     it 'installs stow' do
