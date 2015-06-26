@@ -79,9 +79,10 @@ describe 'stow::default' do
       expect(chef_run).to create_remote_file("/opt/local/stow/src/stow-2.2.0.tar.gz")
     end
 
-    it 'installs stow' do
-      expect(chef_run).to install_package 'stow'
-    end
+    it 'extracts stow source'
+    it 'configures stow with prefix'
+    it 'makes stow with prefix'
+    it 'adds stow bin to $PATH'
   end
 
 end
