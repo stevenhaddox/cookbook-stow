@@ -1,0 +1,17 @@
+name 'stow'
+maintainer 'Steven Haddox'
+maintainer_email 'steven.haddox@gmail.com'
+license 'all_rights'
+description 'Installs GNU Stow'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version '0.1.0'
+
+supports 'debian'
+supports 'ubuntu'
+supports 'centos'
+supports 'fedora'
+supports 'scientific'
+supports 'redhat'
+
+depends 'build-essential', '~> 2.2'
+depends 'perl', '~> 1.2.4'

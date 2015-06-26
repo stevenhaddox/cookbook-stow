@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-6.5
+  - name: ubuntu-14.04
+  - name: debian-7.0
+  - name: fedora-20
+  - name: scientific-6.4
+    driver_config:
+      box: lyte-scientific-6-minimal
+      box_url: http://lyte.id.au/vagrant/sl6-64-lyte.box
+  - name: oracle-6.4
+    driver_config:
+      box: oracle-6.4
+      box_url: https://storage.us2.oraclecloud.com/v1/istoilis-istoilis/vagrant/oel64-64.box
+
+suites:
+  - name: default
+    run_list:
+      - recipe[stow::default]
+    attributes:
