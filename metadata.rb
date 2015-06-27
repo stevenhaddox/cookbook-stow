@@ -14,4 +14,5 @@ supports 'scientific'
 supports 'redhat'
 
 depends 'build-essential', '~> 2.2'
-depends 'perl', '~> 1.2.4'
+depends 'tar', '~> 0.6.0'
+depends 'yum-epel', '~> 0.6.2'
