@@ -12,9 +12,9 @@ platforms:
       box_url: http://sourceforge.net/projects/opensusevagrant/files/12.3/opensuse-12.3-64.box/download
       require_chef_omnibus: true
   - name: centos-6.5
-  - name: ubuntu-14.04
-  - name: debian-7.0
   - name: fedora-20
+#  - name: debian-7.0
+#  - name: ubuntu-14.04
 
 suites:
   - name: default

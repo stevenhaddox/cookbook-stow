@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe 'stow::default' do
-  # Serverspec examples can be found at
-  # http://serverspec.org/resource_types.html
-  it 'does something' do
-    skip 'Replace this with meaningful tests'
+  describe command('stow --version') do
+    it "executes without error" do
+      expect(subject.exit_status).to eq 0
+    end
+    it "is the right version" do
+      expect(subject.stdout).to match(/version 2.2.0/)
+    end
   end
 end
