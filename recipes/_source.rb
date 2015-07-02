@@ -26,14 +26,11 @@ potentially_at_compile_time do
   # Remove old stow if directory exists
   execute 'destow_previous_stow' do
     # Protect against nil attr value in `only_if` block error
-    if node['stow']['prev_version'] && !node['stow']['prev_version'].empty?
-      command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
-      only_if {
-        ::File.directory?(
-          File.join(node['stow']['path'], 'stow', node['stow']['prev_version'])
-        )
-      }
-    end
+    command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
+    # Do not run if we do not have a previous version attribute defined
+    not_if {
+      node['stow']['prev_version'].nil? or node['stow']['prev_version'].empty?
+    }
   end
 
   # Stow current version of stow
