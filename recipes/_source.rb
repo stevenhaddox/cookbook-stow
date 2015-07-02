@@ -19,10 +19,22 @@ potentially_at_compile_time do
   end
 
   stow_command  = "#{stow_compile_path}/bin/stow -d #{node['stow']['path']}"
-  stow_command += " -t #{node['stow']['target']}" if node['stow']['target']
-  stow_command += " stow-#{node['stow']['version']}"
+  if node['stow']['target'] && !node['stow']['target'].empty?
+    stow_command += " -t #{node['stow']['target']}"
+  end
 
+  # Remove old stow if directory exists
+  execute 'destow_previous_stow' do
+    # Protect against nil attr value in `only_if` block error
+    command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
+    # Do not run if we do not have a previous version attribute defined
+    not_if {
+      node['stow']['prev_version'].nil? or node['stow']['prev_version'].empty?
+    }
+  end
+
+  # Stow current version of stow
   execute 'stow_stow' do
-    command stow_command
+    command "#{stow_command} stow-#{node['stow']['version']}"
   end
 end
