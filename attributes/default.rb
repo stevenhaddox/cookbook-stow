@@ -1,4 +1,5 @@
-default['stow']['path'] = '/opt/local/stow'
+default['stow']['path'] = '/usr/local/stow'
+default['stow']['target'] = '/usr/local'
 default['stow']['version'] = '2.2.0'
 default['stow']['prev_version'] = nil
 default['stow']['src_url'] = 'http://ftp.gnu.org/gnu/stow/stow-2.2.0.tar.gz'

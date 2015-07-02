@@ -18,10 +18,14 @@ describe 'stow::default' do
     end
 
     it 'creates stow src directory' do
-      expect(chef_run).to create_directory('/opt/local/stow/src').with(
+      expect(chef_run).to create_directory('/usr/local/stow/src').with(
         user:  'root',
         group: 'root'
       )
+    end
+
+    it 'adds stow bin to $PATH' do
+      expect(chef_run).to create_template('/etc/profile.d/stow.sh')
     end
   end
 
@@ -78,18 +82,15 @@ describe 'stow::default' do
     it "de-stows previous stow if present"
 
     it 'gets the latest stow' do
-      expect(chef_run).to create_remote_file("/opt/local/stow/src/stow-2.2.0.tar.gz")
+      expect(chef_run).to create_remote_file("/usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
     it 'installs stow from source' do
-      expect(chef_run).to install_tar_package("file:////opt/local/stow/src/stow-2.2.0.tar.gz")
+      expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
     it 'stows itself' do
-      expect(chef_run).to create_file_if_missing("/opt/local/bin/stow")
+      expect(chef_run).to run_execute('stow_stow')
     end
-
-    it 'adds stow bin to $PATH'
   end
-
 end

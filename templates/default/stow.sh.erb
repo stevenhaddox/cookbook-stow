@@ -1,0 +1,6 @@
+<%- if node['stow']['target'] %>
+PATH="<%= "#{node['stow']['target']}/sbin:#{node['stow']['target']}/bin:${PATH}" %>"
+<%- else %>
+PATH="<%= "#{node['stow']['path']}/../sbin:#{node['stow']['path']}/../bin:${PATH}" %>"
+<%- end %>
+export PATH

@@ -20,3 +20,5 @@ rescue Chef::Exceptions::RecipeNotFound
   # If no platform match was found, install from source
   include_recipe "stow::_source"
 end
+
+template '/etc/profile.d/stow.sh'
