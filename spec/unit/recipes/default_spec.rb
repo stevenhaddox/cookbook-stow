@@ -79,14 +79,16 @@ describe 'stow::default' do
       runner.converge(described_recipe)
     end
 
-    it "de-stows previous stow if present"
-
     it 'gets the latest stow' do
       expect(chef_run).to create_remote_file("/usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
     it 'installs stow from source' do
       expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
+    end
+
+    it "de-stows previous stow if present" do
+      expect(chef_run).to run_execute('destow_previous_stow')
     end
 
     it 'stows itself' do
