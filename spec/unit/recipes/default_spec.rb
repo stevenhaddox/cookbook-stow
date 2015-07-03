@@ -87,12 +87,26 @@ describe 'stow::default' do
       expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
-    it "de-stows previous stow if present" do
+    it 'stows itself' do
+      expect(chef_run).to run_execute('stow_stow')
+    end
+
+    it "previous version destows if it exists" do
+      chef_run.node.set['stow']['prev_version'] = '2.2.0'
+      chef_run.converge(described_recipe)
       expect(chef_run).to run_execute('destow_previous_stow')
     end
 
-    it 'stows itself' do
-      expect(chef_run).to run_execute('stow_stow')
+    it "previous version is skipped if it is not defined" do
+      chef_run.node.set['stow']['prev_version'] = nil
+      chef_run.converge(described_recipe)
+      expect(chef_run).to_not run_execute('destow_previous_stow')
+    end
+
+    it "previous version is skipped if it is empty" do
+      chef_run.node.set['stow']['prev_version'] = ''
+      chef_run.converge(described_recipe)
+      expect(chef_run).to_not run_execute('destow_previous_stow')
     end
   end
 end
