@@ -1,4 +1,6 @@
 #!/usr/bin/env rake
+require 'stove/rake_task'
+Stove::RakeTask.new
 
 task :default => 'foodcritic'
 
