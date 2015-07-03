@@ -1,11 +1,12 @@
 include_recipe 'tar'
 
 potentially_at_compile_time do
-  remote_file "#{node['stow']['path']}/src/stow-#{node['stow']['version']}.tar.gz" do
+  tarball = "#{node['stow']['path']}/src/stow-#{node['stow']['version']}.tar.gz"
+  remote_file tarball do
     source node['stow']['src_url']
   end
 
-  tar_package "file:///#{node['stow']['path']}/src/stow-#{node['stow']['version']}.tar.gz" do
+  tar_package "file:///#{tarball}" do
     prefix "#{node['stow']['path']}/stow-#{node['stow']['version']}"
     creates "#{node['stow']['path']}/stow-#{node['stow']['version']}/bin/stow"
   end
@@ -28,9 +29,9 @@ potentially_at_compile_time do
     # Protect against nil attr value in `only_if` block error
     command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
     # Do not run if we do not have a previous version attribute defined
-    not_if {
-      node['stow']['prev_version'].nil? or node['stow']['prev_version'].empty?
-    }
+    not_if do
+      node['stow']['prev_version'].nil? || node['stow']['prev_version'].empty?
+    end
   end
 
   # Stow current version of stow
