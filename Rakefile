@@ -16,8 +16,7 @@ end
 desc "Runs knife cookbook test"
 task :knife do
   Rake::Task[:prepare_sandbox].execute
-
-  sh "bundle exec knife cookbook test cookbook -c test/.chef/knife.rb -o #{sandbox_path}/../"
+  sh "bundle exec knife cookbook test stow -c test/.chef/knife.rb -o #{sandbox_path}/../"
 end
 
 task :prepare_sandbox do
@@ -30,5 +29,5 @@ end
 
 private
 def sandbox_path
-  File.join(File.dirname(__FILE__), %w(tmp cookbooks cookbook))
+  File.join(File.dirname(__FILE__), %w(tmp cookbooks stow))
 end
