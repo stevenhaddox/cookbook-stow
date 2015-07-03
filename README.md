@@ -1,9 +1,9 @@
 # stow (Chef cookbook)
 
-[![Supermarket](http://img.shields.io/cookbook/v/cookbook-stow.svg)][1]
-[![Build Status](http://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)][2]
-[![Code Coverage](http://img.shields.io/coveralls/stevenhaddox/cookbook-stow.svg)][3]
-[![Dependencies](http://img.shields.io/gemnasium/stevenhaddox/cookbook-stow.svg)][4]
+![Supermarket](http://img.shields.io/cookbook/v/cookbook-stow.svg)
+![Build Status](http://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)
+![Code Coverage](http://img.shields.io/coveralls/stevenhaddox/cookbook-stow.svg)
+![Dependencies](http://img.shields.io/gemnasium/stevenhaddox/cookbook-stow.svg)
 
 ## Description
 
