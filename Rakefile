@@ -2,6 +2,9 @@
 require 'stove/rake_task'
 Stove::RakeTask.new
 
+require 'coveralls/rake/task'
+Coveralls::RakeTask.new
+
 task :default => 'foodcritic'
 
 desc "Runs foodcritic linter"
