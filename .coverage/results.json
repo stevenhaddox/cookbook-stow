@@ -1,0 +1,188 @@
+{
+  "files": {
+    "stow/recipes/default.rb": {
+      "directory[/usr/local/stow/src]": {
+        "name": "directory[/usr/local/stow/src]",
+        "source": "stow/recipes/default.rb",
+        "line": 9,
+        "covered": true
+      },
+      "template[/etc/profile.d/stow.sh]": {
+        "name": "template[/etc/profile.d/stow.sh]",
+        "source": "stow/recipes/default.rb",
+        "line": 24,
+        "covered": true
+      }
+    },
+    "stow/recipes/_source.rb": {
+      "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 5,
+        "covered": true
+      },
+      "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 9,
+        "covered": true
+      },
+      "file[/usr/local/stow/stow-2.2.0/bin/stow]": {
+        "name": "file[/usr/local/stow/stow-2.2.0/bin/stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 16,
+        "covered": false
+      },
+      "execute[destow_previous_stow]": {
+        "name": "execute[destow_previous_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 28,
+        "covered": true
+      },
+      "execute[stow_stow]": {
+        "name": "execute[stow_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 38,
+        "covered": true
+      }
+    },
+    "stow/recipes/_rhel.rb": {
+      "yum_package[stow]": {
+        "name": "yum_package[stow]",
+        "source": "stow/recipes/_rhel.rb",
+        "line": 4,
+        "covered": true
+      }
+    },
+    "stow/recipes/_debian.rb": {
+      "apt_package[stow]": {
+        "name": "apt_package[stow]",
+        "source": "stow/recipes/_debian.rb",
+        "line": 2,
+        "covered": true
+      }
+    }
+  },
+  "resources": {
+    "all": {
+      "directory[/usr/local/stow/src]": {
+        "name": "directory[/usr/local/stow/src]",
+        "source": "stow/recipes/default.rb",
+        "line": 9,
+        "covered": true
+      },
+      "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 5,
+        "covered": true
+      },
+      "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 9,
+        "covered": true
+      },
+      "file[/usr/local/stow/stow-2.2.0/bin/stow]": {
+        "name": "file[/usr/local/stow/stow-2.2.0/bin/stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 16,
+        "covered": false
+      },
+      "execute[destow_previous_stow]": {
+        "name": "execute[destow_previous_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 28,
+        "covered": true
+      },
+      "execute[stow_stow]": {
+        "name": "execute[stow_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 38,
+        "covered": true
+      },
+      "template[/etc/profile.d/stow.sh]": {
+        "name": "template[/etc/profile.d/stow.sh]",
+        "source": "stow/recipes/default.rb",
+        "line": 24,
+        "covered": true
+      },
+      "yum_package[stow]": {
+        "name": "yum_package[stow]",
+        "source": "stow/recipes/_rhel.rb",
+        "line": 4,
+        "covered": true
+      },
+      "apt_package[stow]": {
+        "name": "apt_package[stow]",
+        "source": "stow/recipes/_debian.rb",
+        "line": 2,
+        "covered": true
+      }
+    },
+    "covered": {
+      "directory[/usr/local/stow/src]": {
+        "name": "directory[/usr/local/stow/src]",
+        "source": "stow/recipes/default.rb",
+        "line": 9,
+        "covered": true
+      },
+      "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "remote_file[/usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 5,
+        "covered": true
+      },
+      "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]": {
+        "name": "tar_package[file:////usr/local/stow/src/stow-2.2.0.tar.gz]",
+        "source": "stow/recipes/_source.rb",
+        "line": 9,
+        "covered": true
+      },
+      "execute[destow_previous_stow]": {
+        "name": "execute[destow_previous_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 28,
+        "covered": true
+      },
+      "execute[stow_stow]": {
+        "name": "execute[stow_stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 38,
+        "covered": true
+      },
+      "template[/etc/profile.d/stow.sh]": {
+        "name": "template[/etc/profile.d/stow.sh]",
+        "source": "stow/recipes/default.rb",
+        "line": 24,
+        "covered": true
+      },
+      "yum_package[stow]": {
+        "name": "yum_package[stow]",
+        "source": "stow/recipes/_rhel.rb",
+        "line": 4,
+        "covered": true
+      },
+      "apt_package[stow]": {
+        "name": "apt_package[stow]",
+        "source": "stow/recipes/_debian.rb",
+        "line": 2,
+        "covered": true
+      }
+    },
+    "uncovered": {
+      "file[/usr/local/stow/stow-2.2.0/bin/stow]": {
+        "name": "file[/usr/local/stow/stow-2.2.0/bin/stow]",
+        "source": "stow/recipes/_source.rb",
+        "line": 16,
+        "covered": false
+      }
+    }
+  },
+  "totals": {
+    "resources": 9,
+    "covered": 8,
+    "uncovered": 1,
+    "percent": 88.89
+  }
+}
