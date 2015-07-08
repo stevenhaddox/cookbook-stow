@@ -2,8 +2,6 @@
 
 [![Supermarket](http://img.shields.io/cookbook/v/cookbook-stow.svg)][1]
 [![Build Status](http://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)][2]
-[![Code Coverage](http://img.shields.io/coveralls/stevenhaddox/cookbook-stow.svg)][3]
-[![Dependencies](http://img.shields.io/gemnasium/stevenhaddox/cookbook-stow.svg)][4]
 
 ## Description
 
@@ -43,5 +41,3 @@ Configure attributes:
 
 [1]: https://supermarket.getchef.com/cookbooks/stow
 [2]: http://travis-ci.org/stevenhaddox/cookbook-stow
-[3]: https://coveralls.io/r/stevenhaddox/cookbook-stow
-[4]: https://gemnasium.com/stevenhaddox/cookbook-stow
