@@ -4,7 +4,7 @@ maintainer_email 'steven.haddox@gmail.com'
 license 'all_rights'
 description 'Installs GNU Stow'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '0.1.2'
+version '0.1.3'
 
 supports 'debian'
 supports 'ubuntu'
