@@ -39,5 +39,64 @@ Configure attributes:
       "prev_version" : "2.1.3"
     }
 
+## Resources Provided
+
+The stow cookbook provides a `stow_package` resource that can be used as follows:
+
+```ruby
+stow_package 'openssl' do
+  name: 'openssl'
+  version: '1.0.2d'
+  #action: stow # The default action is `stow`
+  #current_version: '1.0.2c' # Will result in current version being destowed before new version is stowed
+  #destow_existing: false # If true it will remove all stowed package directories that match the prefix "#{name}-", USE WITH CAUTION!!!
+end
+```
+
+
+
+## ChefSpec Matchers
+
+A set of ChefSpec matchers is included, for unit testing with ChefSpec. To illustrate:
+
+```ruby
+# Recipe code
+stow_package 'openssl' do
+  name: 'openssl'
+  version: '1.0.2d'
+end
+```
+
+```ruby
+# Spec code
+it 'should stow openssl version 1.0.2d' do
+  expect(chef_run).to stow_package('openssl').with(
+    name:  'openssl',
+    version: '1.0.2d'
+  )
+end
+```
+
+A matcher for the delete action is also available:
+
+```ruby
+# Recipe code
+stow_package 'openssl' do
+  action: destow
+  name: 'openssl'
+  version: '1.0.2c'
+end
+```
+
+```ruby
+# Spec code
+it 'should destow package openssl 1.0.2c' do
+  expect(chef_run).to destow_package('openssl').with(
+    name: 'openssl',
+    version: '1.0.2c'
+  )
+end
+```
+
 [1]: https://supermarket.getchef.com/cookbooks/stow
 [2]: http://travis-ci.org/stevenhaddox/cookbook-stow
