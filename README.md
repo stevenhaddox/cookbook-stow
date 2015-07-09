@@ -34,7 +34,7 @@ If your package / library works with the [tar cookbook][3] there's a very easy w
 # Compile your package via the tar cookbook with proper prefix
 tar_package "#{tarball_path_or_url}" do
   prefix "#{node['stow']['path']}/#{your_pkg_name}/#{your_pkg_version}"
-  creates "#{node['stow']['path']}/#{your_pkg_name/#{your_pkg_version}/bin/#{your_pkg_cmd}"
+  creates "#{node['stow']['path']}/#{your_pkg_name}/#{your_pkg_version}/bin/#{your_pkg_cmd}"
 end
 
 # Stow your package
