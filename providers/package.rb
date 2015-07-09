@@ -8,6 +8,7 @@ def stow
   if node['stow']['target'] && !node['stow']['target'].empty?
     stow_command += " -t #{node['stow']['target']}"
   end
+
   stow_command
 end
 
@@ -28,5 +29,6 @@ end
 action :destow do
   name = @new_resource.name
   version = @new_resource.version
+
   command "#{stow} -D #{name}-#{version}"
 end

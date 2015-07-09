@@ -7,11 +7,11 @@ potentially_at_compile_time do
   end
 
   tar_package "file:///#{tarball}" do
-    prefix "#{node['stow']['path']}/stow-#{node['stow']['version']}"
-    creates "#{node['stow']['path']}/stow-#{node['stow']['version']}/bin/stow"
+    prefix "#{node['stow']['path']}/stow/#{node['stow']['version']}"
+    creates "#{node['stow']['path']}/stow/#{node['stow']['version']}/bin/stow"
   end
 
-  stow_compile_path = "#{node['stow']['path']}/stow-#{node['stow']['version']}"
+  stow_compile_path = "#{node['stow']['path']}/stow/#{node['stow']['version']}"
 
   file "#{stow_compile_path}/bin/stow" do
     owner 'root'
@@ -25,17 +25,18 @@ potentially_at_compile_time do
   end
 
   # Remove old stow if directory exists
-  execute 'destow_previous_stow' do
+  execute 'destow_current_stow' do
     # Protect against nil attr value in `only_if` block error
-    command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
-    # Do not run if we do not have a previous version attribute defined
+    command "#{stow_command} -D stow/#{node['stow']['current_version']}"
+    # Do not run if we do not have a current version attribute defined
     not_if do
-      node['stow']['prev_version'].nil? || node['stow']['prev_version'].empty?
+      node['stow']['current_version'].nil? ||
+      node['stow']['current_version'].empty?
     end
   end
 
   # Stow current version of stow
   execute 'stow_stow' do
-    command "#{stow_command} stow-#{node['stow']['version']}"
+    command "#{stow_command} stow/#{node['stow']['version']}"
   end
 end
