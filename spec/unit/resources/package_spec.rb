@@ -18,7 +18,11 @@ describe 'stow_test::stow_package' do
 
   context 'destows a package with name, version, and action' do
     it 'destows stow_package[foo]' do
-      expect(stow_package_run).to destow_package('foo').with( action: :destow, name: 'foo', version: '1.0.0' )
+      expect(stow_package_run).to destow_package('foo').with(
+        action: [:destow],
+        name: 'foo',
+        version: '1.0.0'
+      )
     end
   end
 end
