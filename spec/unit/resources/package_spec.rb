@@ -9,7 +9,10 @@ describe 'stow_test::stow_package' do
 
   context 'stow a package with only a name and version' do
     it 'stows stow_package[foo]' do
-      expect(stow_package_run).to stow_package('foo').with( name: 'foo', version: '1.0.0' )
+      expect(stow_package_run).to stow_package('foo').with(
+        name: 'foo',
+        version: '1.0.0'
+      )
     end
   end
 

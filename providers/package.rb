@@ -23,12 +23,16 @@ action :stow do
     # Destow specified current version
   end
 
-  command "#{stow} #{name}-#{version}"
+  execute "stow_#{name}-#{version}" do
+    command "#{stow} #{name}-#{version}"
+  end
 end
 
 action :destow do
   name = @new_resource.name
   version = @new_resource.version
 
-  command "#{stow} -D #{name}-#{version}"
+  execute "destow_#{name}-#{version}" do
+    command "#{stow} -D #{name}-#{version}"
+  end
 end
