@@ -5,3 +5,6 @@ if ENV['COVERAGE']
   at_exit { ChefSpec::Coverage.report! }
 end
 require 'chefspec/berkshelf'
+if ENV['DEBUG']
+  require 'pry-rescue/rspec'
+end

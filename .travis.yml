@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 cache: bundler
-gemfile: 'test/support/Gemfile'
+gemfile: 'Gemfile'
 rvm:
   - 2.1.5
 script:

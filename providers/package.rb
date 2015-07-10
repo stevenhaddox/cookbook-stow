@@ -1,5 +1,5 @@
 def stow
-  if File.exists?("#{node['stow']['path']}/../bin/stow")
+  if ::File.exists?("#{node['stow']['path']}/../bin/stow")
     stow_command = "#{node['stow']['path']}/../bin/stow"
   else
     stow_command = "stow"
