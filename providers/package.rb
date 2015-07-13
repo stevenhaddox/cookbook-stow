@@ -1,15 +1,46 @@
-def stow
-  if ::File.exists?("#{node['stow']['path']}/../bin/stow")
-    stow_command = "#{node['stow']['path']}/../bin/stow"
-  else
-    stow_command = "stow"
-  end
-  stow_command += " -d #{node['stow']['path']}"
+# Stow target path
+def stow_target
+  stow_target = nil
   if node['stow']['target'] && !node['stow']['target'].empty?
-    stow_command += " -t #{node['stow']['target']}"
+    stow_target = node['stow']['target']
   end
+  stow_target
+end
 
-  stow_command
+# Stow directory path
+def stow_path
+  stow_path = nil
+  if node['stow']['path'] && !node['stow']['path'].empty?
+    stow_path = node['stow']['path']
+  end
+  stow_path
+end
+
+# Detect which stow command to invoke
+# Order of precedence: -t flag > -d flag > 'stow'
+def stow_command
+  command = ''
+  if target && !target.empty?
+    if ::File.exists?("#{stow_target}/bin/stow")
+      command = "#{stow_target}/bin/stow"
+    end
+  elsif stow_path && !stow_path.empty?
+    if ::File.exists?("#{stow_path}/../bin/stow")
+      command = "#{stow_path}/../bin/stow"
+    end
+  end
+  command = command.nil? ? "stow" : command
+end
+
+# Set stow command flags
+def stow_command_flags
+  flags  = ''
+  flags += "-t #{stow_target}" unless stow_target.nil?
+  flags += "-d #{stow_path}" unless stow_path.nil?
+end
+
+def stow
+  "#{stow_command} #{stow_command_flags}"
 end
 
 action :stow do
@@ -24,7 +55,7 @@ action :stow do
   end
 
   execute "stow_#{name}-#{version}" do
-    command "#{stow} #{name}-#{version}"
+    command "#{stow} #{name}/#{version}"
   end
 end
 
@@ -33,6 +64,6 @@ action :destow do
   version = @new_resource.version
 
   execute "destow_#{name}-#{version}" do
-    command "#{stow} -D #{name}-#{version}"
+    command "#{stow} -D #{name}/#{version}"
   end
 end
