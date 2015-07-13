@@ -22,7 +22,7 @@ potentially_at_compile_time do
   end
 
   stow_command = "#{stow_compile_path}/bin/stow -d #{node['stow']['path']}"
-  if !node['stow']['target'].blank?
+  unless node['stow']['target'].blank?
     stow_command += " -t #{node['stow']['target']}"
   end
 

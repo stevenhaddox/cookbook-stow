@@ -48,8 +48,8 @@ end
 
 * `['stow']['path'] = '/usr/local/stow'`
   path stow command uses for symlinking packages and libraries
-* `['stow']['target'] = '/usr/local'`
-  target directory for stow managed symlinks, defaults to stow path's parent directory
+* `['stow']['target'] = nil`
+  target directory for stow managed symlinks, defaults to stow path's parent directory if nil
 * `['stow']['version'] = '2.2.0'`
   version of stow to install for source installations
 * `['stow']['current_version'] = nil`
