@@ -94,6 +94,8 @@ it 'should stow openssl version 1.0.2d' do
     name:    'openssl',
     version: '1.0.2d'
   )
+  # Stow package wraps the execute resource if you want further validation
+  expect(chef_run).to run_execute('stow_openssl-1.0.2d')
 end
 ```
 
@@ -116,6 +118,8 @@ it 'should destow package openssl 1.0.2c' do
     name:    'openssl',
     version: '1.0.2c'
   )
+  # Stow package wraps the execute resource if you want further validation
+  expect(chef_run).to run_execute('destow_openssl-1.0.2c')
 end
 ```
 
