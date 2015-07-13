@@ -29,7 +29,7 @@ def stow_command
       command = "#{stow_path}/../bin/stow"
     end
   end
-  command = command.nil? ? "stow" : command
+  command = command.nil? ? 'stow' : command
 end
 
 # Set stow command flags

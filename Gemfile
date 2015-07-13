@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Fix for nokogiri to install properly for ChefDK setup, not needed for CI
 unless ENV['CI'] == true
@@ -17,6 +17,6 @@ end
 
 group :development do
   gem 'pry'
-  gem "pry-plus", git: "git://github.com/avantcredit/pry-plus.git"
+  gem 'pry-plus', git: 'git://github.com/avantcredit/pry-plus.git'
   gem 'stove'
 end

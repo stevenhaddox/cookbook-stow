@@ -31,7 +31,7 @@ potentially_at_compile_time do
     # Do not run if we do not have a current version attribute defined
     not_if do
       node['stow']['current_version'].nil? ||
-      node['stow']['current_version'].empty?
+        node['stow']['current_version'].empty?
     end
   end
 
