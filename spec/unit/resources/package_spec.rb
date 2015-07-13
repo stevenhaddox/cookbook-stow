@@ -13,6 +13,7 @@ describe 'stow_test::stow_package' do
         name: 'foo',
         version: '1.0.0'
       )
+      expect(stow_package_run).to run_execute('stow_foo-1.0.0')
     end
   end
 
@@ -23,6 +24,7 @@ describe 'stow_test::stow_package' do
         name: 'foo',
         version: '1.0.0'
       )
+      expect(stow_package_run).to run_execute('destow_foo-1.0.0')
     end
   end
 end
