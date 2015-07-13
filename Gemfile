@@ -17,6 +17,6 @@ end
 
 group :development do
   gem 'pry'
-  gem 'pry-test'
+  gem "pry-plus", git: "git://github.com/avantcredit/pry-plus.git"
   gem 'stove'
 end
