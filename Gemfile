@@ -12,7 +12,9 @@ group :test do
   gem 'chefspec-coveragereports'
   gem 'rake'
   gem 'foodcritic'
+  gem 'kitchen-vagrant'
   gem 'rubocop'
+  gem 'test-kitchen'
 end
 
 group :development do
