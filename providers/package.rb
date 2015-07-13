@@ -20,7 +20,7 @@ end
 # Order of precedence: -t flag > -d flag > 'stow'
 def stow_command
   command = ''
-  if target && !target.empty?
+  if stow_target && !stow_target.empty?
     if ::File.exists?("#{stow_target}/bin/stow")
       command = "#{stow_target}/bin/stow"
     end
