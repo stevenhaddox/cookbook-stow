@@ -1,11 +1,9 @@
 module StowCookbook
   # Utility methods for the Stow cookbook
   module Utils
-    include Chef::DSL::IncludeRecipe
-
     # Simplify variable existence checks with .blank?
-    def blank?
-      self.nil? || self.empty?
+    def blank?(object)
+      object.nil? || object.empty?
     end
   end
 end

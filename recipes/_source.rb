@@ -1,6 +1,9 @@
 include_recipe 'tar'
+
 Chef::Resource.send(:include, ::StowCookbook::Utils)
+Chef::Recipe.send(:include, ::StowCookbook::Utils)
 Chef::Resource.send(:include, ::StowCookbook::Command)
+Chef::Recipe.send(:include, ::StowCookbook::Command)
 
 potentially_at_compile_time do
   tarball = "#{node['stow']['path']}/src/stow-#{node['stow']['version']}.tar.gz"
@@ -9,38 +12,36 @@ potentially_at_compile_time do
   end
 
   tar_package "file:///#{tarball}" do
-    prefix "#{node['stow']['path']}/stow/#{node['stow']['version']}"
-    creates "#{node['stow']['path']}/stow/#{node['stow']['version']}/bin/stow"
+    prefix "#{stow_buildout_path}"
+    creates "#{stow_buildout_path}/bin/stow"
   end
 
-  stow_compile_path = "#{node['stow']['path']}/stow/#{node['stow']['version']}"
-
-  file "#{stow_compile_path}/bin/stow" do
+  file "#{stow_buildout_path}/bin/stow" do
     owner 'root'
     group 'root'
     mode '0755'
   end
 
-  stow_command = "#{stow_compile_path}/bin/stow -d #{node['stow']['path']}"
-  unless node['stow']['target'].blank?
-    stow_command += " -t #{node['stow']['target']}"
-  end
-
   # Remove old stow if directory exists
-  execute 'destow_current_stow' do
-    command "#{stow_command} -D stow/#{node['stow']['current_version']}"
-    # Do not run if we do not have a current version attribute defined
+  execute 'destow_existing_stow' do
+    packages = stow_package_versions('stow')
+    packages.each do |package_basename|
+      command "#{stow(use_buildout=true)} -D #{package_basename}"
+    end
+    # Do not run if current version of stow matches node specified version
     not_if do
-      node['stow']['current_version'].blank?
+      blank?(stow_package_versions('stow')) ||
+      package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
     end
   end
 
   # Stow current version of stow
   execute 'stow_stow' do
-    command "#{stow_command} stow/#{node['stow']['version']}"
+    stow_pkg_ver = "stow#{pkg_delim}#{node['stow']['version']}"
+    command "#{stow(use_buildout=true)} #{stow_pkg_ver}"
     # Do not run if stow already exists where specified
     not_if do
-      # TODO
+      package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
     end
   end
 end

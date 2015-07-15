@@ -1,43 +1,43 @@
-include StowCookbook::Utils
 include StowCookbook::Command
-
+include StowCookbook::Utils
 use_inline_resources
-
-# Destow all package directories with "#{name}-" as a prefix
-def destow_existing
-  # TODO
-end
-
-# Destow specified current version
-def destow_current_version
-  # TODO
-end
 
 action :stow do
   name = new_resource.name
   version = new_resource.version
-
   # Destow existing > current version as latter is included in the former
   if new_resource.destow_existing == true
-    destow_existing
-  elsif !new_resource.current_version.blank?
-    destow_current_version
+    destow_existing(pkg_name=name)
+  elsif !blank?(new_resource.current_version)
+    destow_current_version(pkg_name=name, pkg_version=version)
   end
 
-  execute "stow_#{name}-#{version}" do
-    command "#{stow} #{name}/#{version}"
+  execute "stow_#{name}#{pkg_delim}#{version}" do
+    command "#{stow} #{name}#{pkg_delim}#{version}"
   end
-
   new_resource.updated_by_last_action(true)
 end
 
 action :destow do
   name = new_resource.name
   version = new_resource.version
-
-  execute "destow_#{name}-#{version}" do
-    command "#{stow} -D #{name}/#{version}"
+  execute "destow_#{name}#{pkg_delim}#{version}" do
+    command "#{stow} -D #{name}#{pkg_delim}#{version}"
   end
-
   new_resource.updated_by_last_action(true)
+end
+
+# Destow currently stowed package
+def destow_current_version(pkg_name=nil, pkg_version=nil)
+  command "#{stow} -D #{pkg_name}#{pkg_delim}#{pkg_version}"
+end
+
+# Destow all package directories with "#{name}#{pkg_delim}" as a prefix
+def destow_existing(pkg_name=nil)
+  packages = stow_package_versions(pkg_name)
+  unless packages.empty?
+    packages.each do |package_basename|
+      command "#{stow} -D #{package_basename}"
+    end
+  end
 end

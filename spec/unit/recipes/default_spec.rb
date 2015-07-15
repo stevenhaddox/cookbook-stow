@@ -94,19 +94,19 @@ describe 'stow::default' do
     it "current version destows if it exists" do
       chef_run.node.set['stow']['current_version'] = '2.2.0'
       chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('destow_current_stow')
+      expect(chef_run).to run_execute('destow_existing_stow')
     end
 
     it "current version is skipped if it is not defined" do
       chef_run.node.set['stow']['current_version'] = nil
       chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_current_stow')
+      expect(chef_run).to_not run_execute('destow_existing_stow')
     end
 
     it "current version is skipped if it is empty" do
       chef_run.node.set['stow']['current_version'] = ''
       chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_current_stow')
+      expect(chef_run).to_not run_execute('destow_existing_stow')
     end
   end
 end
