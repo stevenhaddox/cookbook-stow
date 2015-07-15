@@ -7,9 +7,9 @@ action :stow do
   version = new_resource.version
   # Destow existing > current version as latter is included in the former
   if new_resource.destow_existing == true
-    destow_existing(pkg_name=name)
+    destow_existing(name)
   elsif !blank?(new_resource.current_version)
-    destow_current_version(pkg_name=name, pkg_version=version)
+    destow_current_version(name, version)
   end
 
   execute "stow_#{name}#{pkg_delim}#{version}" do
@@ -28,16 +28,15 @@ action :destow do
 end
 
 # Destow currently stowed package
-def destow_current_version(pkg_name=nil, pkg_version=nil)
+def destow_current_version(pkg_name = nil, pkg_version = nil)
   command "#{stow} -D #{pkg_name}#{pkg_delim}#{pkg_version}"
 end
 
 # Destow all package directories with "#{name}#{pkg_delim}" as a prefix
-def destow_existing(pkg_name=nil)
+def destow_existing(pkg_name = nil)
   packages = stow_package_versions(pkg_name)
-  unless packages.empty?
-    packages.each do |package_basename|
-      command "#{stow} -D #{package_basename}"
-    end
+  return packages if packages.empty?
+  packages.each do |package_basename|
+    command "#{stow} -D #{package_basename}"
   end
 end

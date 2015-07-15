@@ -26,19 +26,19 @@ potentially_at_compile_time do
   execute 'destow_existing_stow' do
     packages = stow_package_versions('stow')
     packages.each do |package_basename|
-      command "#{stow(use_buildout=true)} -D #{package_basename}"
+      command "#{stow('buildout')} -D #{package_basename}"
     end
     # Do not run if current version of stow matches node specified version
     not_if do
       blank?(stow_package_versions('stow')) ||
-      package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
+        package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
     end
   end
 
   # Stow current version of stow
   execute 'stow_stow' do
     stow_pkg_ver = "stow#{pkg_delim}#{node['stow']['version']}"
-    command "#{stow(use_buildout=true)} #{stow_pkg_ver}"
+    command "#{stow('buildout')} #{stow_pkg_ver}"
     # Do not run if stow already exists where specified
     not_if do
       package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
