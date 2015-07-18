@@ -87,26 +87,38 @@ describe 'stow::default' do
       expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
-    it 'stows itself' do
+    it 'stow_stow runs on clean install' do
       expect(chef_run).to run_execute('stow_stow')
     end
 
-    it "current version destows if it exists" do
-      chef_run.node.set['stow']['current_version'] = '2.2.0'
-      chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('destow_existing_stow')
+    it 'stow_stow is skipped if stow is up to date' do
+      pending('todo')
+      fail
+      expect(chef_run).to_not run_execute('stow_stow')
     end
 
-    it "current version is skipped if it is not defined" do
+    it "destow_stow runs if an outdated package is in stow's path" do
+      pending('todo')
+      fail
       chef_run.node.set['stow']['current_version'] = nil
       chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_existing_stow')
+      expect(chef_run).to run_execute('destow_stow')
     end
 
-    it "current version is skipped if it is empty" do
+    it "destow_stow is skipped if stow doesn't exist in stow's path" do
+      pending('todo')
+      fail
+      chef_run.node.set['stow']['version'] = '2.2.0'
+      chef_run.converge(described_recipe)
+      expect(chef_run).to_not run_execute('destow_stow')
+    end
+
+    it "destow_stow is skipped if stow package is up to date" do
+      pending('todo')
+      fail
       chef_run.node.set['stow']['current_version'] = ''
       chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_existing_stow')
+      expect(chef_run).to_not run_execute('destow_stow')
     end
   end
 end

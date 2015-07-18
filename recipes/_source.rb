@@ -23,15 +23,16 @@ potentially_at_compile_time do
   end
 
   # Remove old stow if directory exists
-  execute 'destow_existing_stow' do
-    packages = stow_package_versions('stow')
-    packages.each do |package_basename|
+  execute 'destow_stow' do
+    target_version = node['stow']['version']
+    old_stow_packages('stow', target_version).each do |package_basename|
       command "#{stow('buildout')} -D #{package_basename}"
     end
-    # Do not run if current version of stow matches node specified version
+    # Do not destow if stow is already the correct node version
+    # Or if there are no package versions to destow
     not_if do
-      blank?(stow_package_versions('stow')) ||
-        package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
+      (package_stowed?('stow', node['stow']['version'], 'bin/stow') == true) ||
+        blank?(old_stow_packages('stow', node['stow']['version']))
     end
   end
 
@@ -39,7 +40,7 @@ potentially_at_compile_time do
   execute 'stow_stow' do
     stow_pkg_ver = "stow#{pkg_delim}#{node['stow']['version']}"
     command "#{stow('buildout')} #{stow_pkg_ver}"
-    # Do not run if stow already exists where specified
+    # Do not run if stow is already the correct node version
     not_if do
       package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
     end
