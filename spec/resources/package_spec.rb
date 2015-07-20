@@ -3,8 +3,7 @@ require 'spec_helper'
 describe 'stow_test::stow_package' do
   let(:stow_package_run) do
     ChefSpec::SoloRunner.new(
-      step_into: 'stow_package',
-      log_level: :debug
+      step_into: 'stow_package'
     ).converge(described_recipe)
   end
 

@@ -56,10 +56,9 @@ end
 def destow_existing(pkg_name, version, creates)
   packages = old_stow_packages(pkg_name, version)
   return packages if blank?(packages)
-  Chef::Log.debug ".destow_existing packages: #{packages}"
   packages.each do |package_basename|
-    execute "destow_#{pkg_name}#{pkg_delim}#{version}" do
-      command "#{stow} -D #{pkg_name}#{pkg_delim}#{version}"
+    execute "destow_#{package_basename}" do
+      command "#{stow} -D #{package_basename}"
       # Do not destow if the package is already the correct version
       # Or if there are no package versions to destow
       not_if do
