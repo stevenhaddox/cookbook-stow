@@ -54,9 +54,8 @@ end
 
 # Destow all package directories with "#{name}#{pkg_delim}" as a prefix
 def destow_existing(pkg_name, version, creates)
-  packages = old_stow_packages(pkg_name, version)
-  return packages if blank?(packages)
-  packages.each do |package_basename|
+  return [] if blank?(old_stow_packages(pkg_name, version))
+  old_stow_packages(pkg_name, version).each do |package_basename|
     execute "destow_#{package_basename}" do
       command "#{stow} -D #{package_basename}"
       # Do not destow if the package is already the correct version
