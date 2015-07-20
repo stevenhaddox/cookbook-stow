@@ -2,50 +2,70 @@ include StowCookbook::Command
 include StowCookbook::Utils
 use_inline_resources
 
+# :stow action
 action :stow do
   name = new_resource.name
   version = new_resource.version
+  creates = new_resource.creates
   # Destow existing > current version as latter is included in the former
   if new_resource.destow_existing == true
-    destow_existing(name, version)
+    destow_existing(name, version, creates)
   elsif !blank?(new_resource.current_version)
     destow_current_version(name, new_resource.current_version)
   end
 
+  Chef::Log.debug ":stow package: #{name}#{pkg_delim}#{version}"
   execute "stow_#{name}#{pkg_delim}#{version}" do
     command "#{stow} #{name}#{pkg_delim}#{version}"
+    # Do not run if stow is already the correct node version
+    not_if do
+      package_stowed?(name, version, creates) == true
+    end
   end
-  # TODO
-  # not_if specified version is already stowed
   new_resource.updated_by_last_action(true)
 end
 
+# :destow action
 action :destow do
   name = new_resource.name
   version = new_resource.version
+  Chef::Log.debug ":destow package #{name}#{pkg_delim}#{version}"
   execute "destow_#{name}#{pkg_delim}#{version}" do
     command "#{stow} -D #{name}#{pkg_delim}#{version}"
+    # Only destow the specified version if it exists in the stow directory path
+    only_if do
+      ::File.exist? "#{stow_path}/#{name}#{pkg_delim}#{version}"
+    end
   end
-  # TODO
-  # Only if specified version exists in stow path
   new_resource.updated_by_last_action(true)
 end
 
 # Destow currently stowed package
 def destow_current_version(pkg_name = nil, old_version = nil)
-  command "#{stow} -D #{pkg_name}#{pkg_delim}#{old_version}"
-  # TODO
-  # Only if specified version exists within stow path
+  Chef::Log.debug "destow current ver: #{pkg_name}#{pkg_delim}#{old_version}"
+  execute "destow_#{pkg_name}#{pkg_delim}#{old_version}" do
+    command "#{stow} -D #{pkg_name}#{pkg_delim}#{old_version}"
+    # Only destow the old version if it exists in the stow directory path
+    only_if do
+      ::File.exist? "#{stow_path}/#{pkg_name}#{pkg_delim}#{old_version}"
+    end
+  end
 end
 
 # Destow all package directories with "#{name}#{pkg_delim}" as a prefix
-def destow_existing(pkg_name = nil, version = nil)
+def destow_existing(pkg_name, version, creates)
   packages = old_stow_packages(pkg_name, version)
   return packages if blank?(packages)
+  Chef::Log.debug ".destow_existing packages: #{packages}"
   packages.each do |package_basename|
-    command "#{stow} -D #{package_basename}"
+    execute "destow_#{pkg_name}#{pkg_delim}#{version}" do
+      command "#{stow} -D #{pkg_name}#{pkg_delim}#{version}"
+      # Do not destow if the package is already the correct version
+      # Or if there are no package versions to destow
+      not_if do
+        (package_stowed?(pkg_name, version, creates) == true) ||
+          blank?(old_stow_packages(pkg_name, version))
+      end
+    end
   end
-  # TODO
-  # not_if specified version is already stowed
-  #        or there are no packages in stow path
 end

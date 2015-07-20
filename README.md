@@ -44,7 +44,7 @@ The stow cookbook provides a `stow_package` resource that can be used as follows
 stow_package 'openssl' do
   name    'openssl'
   version '1.0.2d'
-  creates 'bin/openssl' # Relative path to a file your source compiled package creates
+  creates 'bin/openssl' # *Required* relative path to a file your source compiled package creates
   #action :stow # Also available `:destow`, the default action is `:stow`
   #destow_existing true # Defaults to `true` and will destow all out of date packages with prefix "#{name}-+-"
   #current_version '1.0.2c' # Destows `current_version` before `version` is stowed; ignored unless `destow_existing` is `false`
@@ -83,6 +83,7 @@ A set of ChefSpec matchers is included, for unit testing with ChefSpec. To illus
 stow_package 'openssl' do
   name    'openssl'
   version '1.0.2d'
+  creates 'bin/openssl'
 end
 ```
 
@@ -107,6 +108,7 @@ stow_package 'openssl' do
   action  :destow
   name    'openssl'
   version '1.0.2c'
+  creates 'bin/openssl'
 end
 ```
 
@@ -116,7 +118,8 @@ it 'should destow package openssl 1.0.2c' do
   expect(chef_run).to destow_package('openssl').with(
     action:  :destow,
     name:    'openssl',
-    version: '1.0.2c'
+    version: '1.0.2c',
+    creates: 'bin/openssl'
   )
   # Stow package wraps the execute resource if you want further validation
   expect(chef_run).to run_execute('destow_openssl-1.0.2c')

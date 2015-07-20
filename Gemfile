@@ -20,5 +20,6 @@ end
 group :development do
   gem 'pry'
   gem 'pry-plus', git: 'git://github.com/avantcredit/pry-plus.git'
+  gem 'rb-readline'
   gem 'stove'
 end
