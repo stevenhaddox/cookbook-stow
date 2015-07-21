@@ -73,7 +73,7 @@ describe 'stow::default' do
     end
   end
 
-  context "When installing from source" do
+  context 'When installing from source' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new(platform: 'opensuse', version: '12.3')
       runner.converge(described_recipe)
@@ -87,38 +87,46 @@ describe 'stow::default' do
       expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
-    it 'stow_stow runs on clean install' do
-      expect(chef_run).to run_execute('stow_stow')
+    describe '.stow_stow' do
+      it 'runs on a clean install' do
+        expect(chef_run).to run_execute('stow_stow')
+      end
+
+      it 'is skipped if stow is up to date' do
+        # Stub package_stowed? to return true
+        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(true)
+        expect(::StowCookbook::Command).to receive(:package_stowed?)
+        expect(chef_run).to_not run_execute('stow_stow')
+      end
     end
 
-    it 'stow_stow is skipped if stow is up to date' do
-      pending('todo')
-      fail
-      expect(chef_run).to_not run_execute('stow_stow')
-    end
+    describe '.destow_stow' do
+      it 'is skipped if stow is up to date' do
+        # Stub package_stowed? to return true
+        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(true)
+        expect(chef_run).to_not run_execute('destow_stow')
+      end
 
-    it "destow_stow runs if an outdated package is in stow's path" do
-      pending('todo')
-      fail
-      chef_run.node.set['stow']['current_version'] = nil
-      chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('destow_stow')
-    end
+      it 'is skipped if old_stow_packages is blank' do
+        # Stub package_stowed? to return false
+        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(false)
+        # Stub the directory glob to return no package matches
+        allow(::StowCookbook::Command).to receive(:old_stow_packages).and_return([])
+        expect(chef_run).to_not run_execute('destow_stow')
+      end
 
-    it "destow_stow is skipped if stow doesn't exist in stow's path" do
-      pending('todo')
-      fail
-      chef_run.node.set['stow']['version'] = '2.2.0'
-      chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_stow')
-    end
-
-    it "destow_stow is skipped if stow package is up to date" do
-      pending('todo')
-      fail
-      chef_run.node.set['stow']['current_version'] = ''
-      chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_stow')
+      it 'should destow existing stow packages' do
+        # Return array of stow packages that exist in stow's path
+        allow(::StowCookbook::Command).to receive(:old_stow_packages).and_return(['/usr/local/stow/stow-+-2.1.3'])
+        # Ensure the directory glob returns the proper package
+        allow(::File).to receive(:exist?).and_call_original
+        allow(::File).to receive(:exist?).with('/usr/local/stow/stow-+-2.1.3').and_return(true)
+        # Ensure the correct files are present
+        # Ensure the symlink is detected
+        expect(chef_run).to run_execute('destow_stow')
+        expect(chef_run).to run_command(nil)
+        expect(chef_run).to run_execute('stow_stow')
+      end
     end
   end
 end

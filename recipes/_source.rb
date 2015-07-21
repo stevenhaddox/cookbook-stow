@@ -12,7 +12,7 @@ potentially_at_compile_time do
   end
 
   tar_package "file:///#{tarball}" do
-    prefix "#{stow_buildout_path}"
+    prefix stow_buildout_path
     creates "#{stow_buildout_path}/bin/stow"
   end
 
