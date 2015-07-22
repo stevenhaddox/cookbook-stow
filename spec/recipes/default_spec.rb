@@ -94,8 +94,7 @@ describe 'stow::default' do
 
       it 'is skipped if stow is up to date' do
         # Stub package_stowed? to return true
-        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(true)
-        expect(::StowCookbook::Command).to receive(:package_stowed?)
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
         expect(chef_run).to_not run_execute('stow_stow')
       end
     end
@@ -103,28 +102,27 @@ describe 'stow::default' do
     describe '.destow_stow' do
       it 'is skipped if stow is up to date' do
         # Stub package_stowed? to return true
-        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(true)
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
         expect(chef_run).to_not run_execute('destow_stow')
       end
 
       it 'is skipped if old_stow_packages is blank' do
         # Stub package_stowed? to return false
-        allow(::StowCookbook::Command).to receive(:package_stowed?).and_return(false)
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
         # Stub the directory glob to return no package matches
-        allow(::StowCookbook::Command).to receive(:old_stow_packages).and_return([])
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:old_stow_packages).and_return([])
         expect(chef_run).to_not run_execute('destow_stow')
       end
 
       it 'should destow existing stow packages' do
         # Return array of stow packages that exist in stow's path
-        allow(::StowCookbook::Command).to receive(:old_stow_packages).and_return(['/usr/local/stow/stow-+-2.1.3'])
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:old_stow_packages).and_return(['/usr/local/stow/stow-+-2.1.3'])
         # Ensure the directory glob returns the proper package
         allow(::File).to receive(:exist?).and_call_original
         allow(::File).to receive(:exist?).with('/usr/local/stow/stow-+-2.1.3').and_return(true)
         # Ensure the correct files are present
         # Ensure the symlink is detected
         expect(chef_run).to run_execute('destow_stow')
-        expect(chef_run).to run_command(nil)
         expect(chef_run).to run_execute('stow_stow')
       end
     end
