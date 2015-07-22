@@ -1,5 +1,10 @@
 include_recipe 'tar'
 
+Chef::Resource.send(:include, ::StowCookbook::Utils)
+Chef::Recipe.send(:include, ::StowCookbook::Utils)
+Chef::Resource.send(:include, ::StowCookbook::Command)
+Chef::Recipe.send(:include, ::StowCookbook::Command)
+
 potentially_at_compile_time do
   tarball = "#{node['stow']['path']}/src/stow-#{node['stow']['version']}.tar.gz"
   remote_file tarball do
@@ -7,35 +12,37 @@ potentially_at_compile_time do
   end
 
   tar_package "file:///#{tarball}" do
-    prefix "#{node['stow']['path']}/stow-#{node['stow']['version']}"
-    creates "#{node['stow']['path']}/stow-#{node['stow']['version']}/bin/stow"
+    prefix stow_buildout_path
+    creates "#{stow_buildout_path}/bin/stow"
   end
 
-  stow_compile_path = "#{node['stow']['path']}/stow-#{node['stow']['version']}"
-
-  file "#{stow_compile_path}/bin/stow" do
+  file "#{stow_buildout_path}/bin/stow" do
     owner 'root'
     group 'root'
     mode '0755'
   end
 
-  stow_command  = "#{stow_compile_path}/bin/stow -d #{node['stow']['path']}"
-  if node['stow']['target'] && !node['stow']['target'].empty?
-    stow_command += " -t #{node['stow']['target']}"
-  end
-
   # Remove old stow if directory exists
-  execute 'destow_previous_stow' do
-    # Protect against nil attr value in `only_if` block error
-    command "#{stow_command} -D stow-#{node['stow']['prev_version']}"
-    # Do not run if we do not have a previous version attribute defined
+  execute 'destow_stow' do
+    target_version = node['stow']['version']
+    old_stow_packages('stow', target_version).each do |package_basename|
+      command "#{stow('buildout')} -D #{package_basename}"
+    end
+    # Do not destow if stow is already the correct node version
+    # Or if there are no package versions to destow
     not_if do
-      node['stow']['prev_version'].nil? || node['stow']['prev_version'].empty?
+      (package_stowed?('stow', node['stow']['version'], 'bin/stow') == true) ||
+        blank?(old_stow_packages('stow', node['stow']['version']))
     end
   end
 
   # Stow current version of stow
   execute 'stow_stow' do
-    command "#{stow_command} stow-#{node['stow']['version']}"
+    stow_pkg_ver = "stow#{pkg_delim}#{node['stow']['version']}"
+    command "#{stow('buildout')} #{stow_pkg_ver}"
+    # Do not run if stow is already the correct node version
+    not_if do
+      package_stowed?('stow', node['stow']['version'], 'bin/stow') == true
+    end
   end
 end

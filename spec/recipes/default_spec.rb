@@ -73,7 +73,7 @@ describe 'stow::default' do
     end
   end
 
-  context "When installing from source" do
+  context 'When installing from source' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new(platform: 'opensuse', version: '12.3')
       runner.converge(described_recipe)
@@ -87,26 +87,44 @@ describe 'stow::default' do
       expect(chef_run).to install_tar_package("file:////usr/local/stow/src/stow-2.2.0.tar.gz")
     end
 
-    it 'stows itself' do
-      expect(chef_run).to run_execute('stow_stow')
+    describe '.stow_stow' do
+      it 'runs on a clean install' do
+        expect(chef_run).to run_execute('stow_stow')
+      end
+
+      it 'is skipped if stow is up to date' do
+        # Stub package_stowed? to return true
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
+        expect(chef_run).to_not run_execute('stow_stow')
+      end
     end
 
-    it "previous version destows if it exists" do
-      chef_run.node.set['stow']['prev_version'] = '2.2.0'
-      chef_run.converge(described_recipe)
-      expect(chef_run).to run_execute('destow_previous_stow')
-    end
+    describe '.destow_stow' do
+      it 'is skipped if stow is up to date' do
+        # Stub package_stowed? to return true
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
+        expect(chef_run).to_not run_execute('destow_stow')
+      end
 
-    it "previous version is skipped if it is not defined" do
-      chef_run.node.set['stow']['prev_version'] = nil
-      chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_previous_stow')
-    end
+      it 'is skipped if old_stow_packages is blank' do
+        # Stub package_stowed? to return false
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:package_stowed?).and_return(true)
+        # Stub the directory glob to return no package matches
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:old_stow_packages).and_return([])
+        expect(chef_run).to_not run_execute('destow_stow')
+      end
 
-    it "previous version is skipped if it is empty" do
-      chef_run.node.set['stow']['prev_version'] = ''
-      chef_run.converge(described_recipe)
-      expect(chef_run).to_not run_execute('destow_previous_stow')
+      it 'should destow existing stow packages' do
+        # Return array of stow packages that exist in stow's path
+        allow_any_instance_of(Chef::Resource::Execute).to receive(:old_stow_packages).and_return(['/usr/local/stow/stow-+-2.1.3'])
+        # Ensure the directory glob returns the proper package
+        allow(::File).to receive(:exist?).and_call_original
+        allow(::File).to receive(:exist?).with('/usr/local/stow/stow-+-2.1.3').and_return(true)
+        # Ensure the correct files are present
+        # Ensure the symlink is detected
+        expect(chef_run).to run_execute('destow_stow')
+        expect(chef_run).to run_execute('stow_stow')
+      end
     end
   end
 end

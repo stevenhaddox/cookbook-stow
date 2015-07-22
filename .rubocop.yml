@@ -8,3 +8,5 @@ AllCops:
     - spec/**/*
     - test/**/*
     - vendor/**/*
+Style/DoubleNegation:
+  Enabled: false
