@@ -18,10 +18,10 @@ via package management or source if a package is not available.
   version of stow to install for source installations
 * `['stow']['src_url'] = 'http://ftp.gnu.org/gnu/stow/stow-2.2.0.tar.gz'`
   URL for latest stow source tarball
-* `['stow']['rpm_url'] = 'http://dl.fedoraproject.org/pub/epel/6/i386/stow-2.2.0-1.el6.noarch.rpm'`
-  URL for latest RPM package
-* `['stow']['deb_url'] = 'http://mirrors.kernel.org/ubuntu/pool/universe/s/stow/stow_2.2.0-2_all.deb'`
-  URL for latest debian package
+* `['stow']['rpm_url'] = nil # 'http://dl.fedoraproject.org/pub/epel/6/i386/stow-2.2.0-1.el6.noarch.rpm'`
+  Default is nil and uses yum, but you can specify an alternative rpm package by URL
+* `['stow']['deb_url'] = nil # 'http://mirrors.kernel.org/ubuntu/pool/universe/s/stow/stow_2.2.0-2_all.deb'`
+  Default is nil and uses apt, but you can specify an alternative deb package by URL
 
 ## Usage
 
