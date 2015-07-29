@@ -16,7 +16,7 @@ begin
   include_recipe "stow::_#{node['platform_family']}"
 rescue Chef::Exceptions::RecipeNotFound
   # If no platform match was found, install from source
-  include_recipe 'stow::_source'
+  include_recipe 'stow::source'
 end
 
 template '/etc/profile.d/stow.sh'
