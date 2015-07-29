@@ -4,8 +4,6 @@
 #
 # Copyright (c) 2015 Steven Haddox
 
-include_recipe 'build-essential'
-
 directory "#{node['stow']['path']}/src" do
   recursive true
   owner 'root'
