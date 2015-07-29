@@ -8,7 +8,7 @@ if install_from_source
   remote_file "#{stow_deb_path}" do
     source "#{node['stow']['deb_url']}"
     mode '0644'
-    not_if { ::File.exists?(stow_deb_path) }
+    not_if { ::File.exist?(stow_deb_path) }
   end
   # In order to install from source, dpkg is needed
   dpkg_package 'stow' do

@@ -7,7 +7,7 @@ if install_from_source
   remote_file "#{stow_rpm_path}" do
     source "#{node['stow']['rpm_url']}"
     mode '0644'
-    not_if { ::File.exists?(stow_rpm_path) }
+    not_if { ::File.exist?(stow_rpm_path) }
   end
 end
 
