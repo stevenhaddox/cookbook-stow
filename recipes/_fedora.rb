@@ -4,8 +4,8 @@ install_from_source = node['stow']['rpm_url'].nil? ? false : true
 stow_rpm = "stow-#{node['stow']['version']}.rpm"
 stow_rpm_path = "#{Chef::Config[:file_cache_path]}/#{stow_rpm}"
 if install_from_source
-  remote_file "#{stow_rpm_path}" do
-    source "#{node['stow']['rpm_url']}"
+  remote_file stow_rpm_path do
+    source node['stow']['rpm_url']
     mode '0644'
     not_if { ::File.exist?(stow_rpm_path) }
   end
