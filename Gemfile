@@ -10,6 +10,7 @@ gem 'chef', '~> 12.4'
 
 group :test do
   gem 'chefspec-coveragereports'
+  gem 'codeclimate-test-reporter', require: nil
   gem 'rake'
   gem 'foodcritic'
   gem 'kitchen-vagrant'

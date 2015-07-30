@@ -16,3 +16,5 @@ vendor/bundle
 .kitchen/
 .kitchen.local.yml
 tmp/
+
+coverage
