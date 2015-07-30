@@ -1,7 +1,7 @@
 # stow (Chef cookbook)
 
-[![Supermarket](http://img.shields.io/cookbook/v/cookbook-stow.svg)][1]
-[![Build Status](http://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)][2]
+[![Cookbook Version](https://img.shields.io/cookbook/v/stow.svg)][supermarket]
+[![Build Status](https://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)][travis]
 
 ## Description
 
@@ -57,7 +57,7 @@ end
 For the example above, you would compile `openssl` with the prefix:  
 `--prefix #{node['stow']['path']}/openssl-+-1.0.2d/`
 
-If your package / library works with the [tar cookbook][3] there's a very easy way to do this, like so:
+If your package / library works with the [tar cookbook][tar] there's a very easy way to do this, like so:
 
 ```ruby
 # Compile your package via the tar cookbook with proper prefix
@@ -126,6 +126,6 @@ it 'should destow package openssl 1.0.2c' do
 end
 ```
 
-[1]: https://supermarket.getchef.com/cookbooks/stow
-[2]: http://travis-ci.org/stevenhaddox/cookbook-stow
-[3]: https://supermarket.chef.io/cookbooks/tar
+[supermarket]: https://supermarket.getchef.com/cookbooks/stow
+[travis]: http://travis-ci.org/stevenhaddox/cookbook-stow
+[tar]: https://supermarket.chef.io/cookbooks/tar
