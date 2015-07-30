@@ -2,6 +2,7 @@
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/stow.svg)][supermarket]
 [![Build Status](https://img.shields.io/travis/stevenhaddox/cookbook-stow.svg)][travis]
+[![Code Climate](https://codeclimate.com/github/stevenhaddox/cookbook-stow/badges/gpa.svg)][codeclimate]
 
 ## Description
 
@@ -128,4 +129,5 @@ end
 
 [supermarket]: https://supermarket.getchef.com/cookbooks/stow
 [travis]: http://travis-ci.org/stevenhaddox/cookbook-stow
+[codeclimate]: https://codeclimate.com/github/stevenhaddox/cookbook-stow
 [tar]: https://supermarket.chef.io/cookbooks/tar
