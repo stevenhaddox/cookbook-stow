@@ -3,7 +3,7 @@ module StowCookbook
   module Command
     # Wrap most specific stow binary & flags into a method
     def stow(type = nil)
-      Chef::Log.debug ".stow: #{command(type)} #{stow_command_flags}"
+      Chef::Log.debug ".stow: #{stow_command(type)} #{stow_command_flags}"
       "#{stow_command(type)} #{stow_command_flags}"
     end
 
