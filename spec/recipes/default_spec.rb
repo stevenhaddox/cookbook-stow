@@ -18,10 +18,7 @@ describe 'stow::default' do
     end
 
     it 'creates stow src directory' do
-      expect(chef_run).to create_directory('/usr/local/stow/src').with(
-        user:  'root',
-        group: 'root'
-      )
+      expect(chef_run).to run_execute('create_stow_source_dir')
     end
 
     it 'adds stow bin to $PATH' do

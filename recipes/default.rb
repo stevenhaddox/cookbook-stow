@@ -4,11 +4,10 @@
 #
 # Copyright (c) 2015 Steven Haddox
 
-directory "#{node['stow']['path']}/src" do
-  recursive true
-  owner 'root'
-  group 'root'
-  mode '0755'
+execute 'create_stow_source_dir' do
+  umask 022
+  command "mkdir -p #{node['stow']['path']}/src"
+  not_if { ::Dir.exist?("#{node['stow']['path']}/src") }
 end
 
 begin
