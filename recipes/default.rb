@@ -18,4 +18,7 @@ rescue Chef::Exceptions::RecipeNotFound
   include_recipe 'stow::source'
 end
 
-template '/etc/profile.d/stow.sh'
+template '/etc/profile.d/stow.sh' do
+  action :create
+  mode "#{node['stow']['profile.d']['mode']}" if node['stow']['profile.d']['mode']
+end
