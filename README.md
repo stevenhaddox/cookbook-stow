@@ -23,6 +23,8 @@ via package management or source if a package is not available.
   Default is nil and uses yum, but you can specify an alternative rpm package by URL
 * `['stow']['deb_url'] = nil # 'http://mirrors.kernel.org/ubuntu/pool/universe/s/stow/stow_2.2.0-2_all.deb'`
   Default is nil and uses apt, but you can specify an alternative deb package by URL
+* `['stow']['profile.d']['mode'] = nil`
+  Default is nill which will set permissions to the default system level
 
 ## Usage
 
